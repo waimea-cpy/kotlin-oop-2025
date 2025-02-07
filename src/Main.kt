@@ -52,11 +52,6 @@ class Cat(val name: String, var legs: Int = 4) {
         println("$name is now friends with ${newFriend.name}")
     }
 
-
-
-
-
-
     // This method is run when an object is created
     init {
         println("Creating a new cat")
@@ -78,39 +73,19 @@ class Cat(val name: String, var legs: Int = 4) {
             info += "No BFF!"
         }
 
-
         return info
     }
 }
 
 
 
+class Room(val height: Int, val width: Int, val length: Int) {
 
+    fun volume(): Int {
+        // Return the volume of the room = h*w*l
+    }
 
+    fun area(): Int {
 
-
-
-
-/* NOTES **************************************
-
-    More data fields
-    1. As class parameters
-        - val/var
-        - Some with defaults
-    2. Created upon instantiation
-
-    Constructor - init function
-
-    Printable via toString function
-
-    Methods for behaviour:
-    - Updating data fields
-    - Conditionally updating data (e.g. based on state)
-
-    Dynamic creation
-    - User input
-    - Dynamic list
-
-    Relationships between objects
-
- */
+    }
+}
