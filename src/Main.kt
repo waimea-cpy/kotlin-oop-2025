@@ -1,4 +1,15 @@
+/**
+ * Intro to OOP looking at the creation
+ * and use of classes and objects
+ */
+
+
+/**
+ * The main() method is the entry point for
+ * any Kotlin program
+ */
 fun main() {
+    // Let's make some cats
     val cat1 = Cat("Jimmy")
     val cat2 = Cat("Dave", 1)
     val cat3 = Cat("Nigel")
@@ -7,17 +18,33 @@ fun main() {
     println(cat2)
     println(cat3)
 
+    // Play with the cats
     cat1.poke()
     cat1.stroke()
     cat1.stroke()
     cat1.poke()
 
+    // Manipulate the cat friendships
     println(cat1)
     cat1.makeFriends(cat3)
     println(cat1)
     println(cat3)
+
+    //-----------------------------------------
+
+    // Let's make a few rooms
+    val bedroom = Room("Bedroom", 3, 4, 5)
+    val kitchen = Room("Kitchen", 3, 5, 6)
+
+    bedroom.info()
+    kitchen.info()
 }
 
+
+/**
+ * Cat class, tracking name and other key data
+ * Cats can be woken, stroked, make friends, etc.
+ */
 class Cat(val name: String, var legs: Int = 4) {
     var isSleeping: Boolean = false;
     var isHungry: Boolean = false;
@@ -78,14 +105,33 @@ class Cat(val name: String, var legs: Int = 4) {
 }
 
 
-
-class Room(val height: Int, val width: Int, val length: Int) {
+/**
+ * Room class defining a physical room with h, w, d
+ */
+class Room(
+    val name: String,
+    val height: Int,
+    val width: Int,
+    val depth: Int
+) {
 
     fun volume(): Int {
         // Return the volume of the room = h*w*l
+        return height * width * depth
     }
 
     fun area(): Int {
+        val walls = width * height * 2 + depth * height * 2
+        val floor = width * depth
+        val ceiling = floor
+        return walls + floor + ceiling
+    }
 
+    fun info() {
+        println("----------------------------")
+        println("Room: $name")
+        println("Dimensions: ${height}m tall, ${width}m wide, ${depth}m deep")
+        println("Volume: ${volume()}m³")
+        println("Area: ${area()}m²")
     }
 }
