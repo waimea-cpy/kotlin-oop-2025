@@ -33,11 +33,31 @@ fun main() {
     //-----------------------------------------
 
     // Let's make a few rooms
+    println("------------------------")
+
     val bedroom = Room("Bedroom", 3, 4, 5)
     val kitchen = Room("Kitchen", 3, 5, 6)
 
-    bedroom.info()
-    kitchen.info()
+    // And some windows
+    println("------------------------")
+
+    val win1 = Window(1, 3)
+    val win2 = Window(1, 2)
+    val win3 = Window(1, 5)
+    val win4 = Window(1, 30)
+
+    // Try to add the windows to the rooms
+    println("------------------------")
+
+    bedroom.addWindow(win1)
+    bedroom.addWindow(win2)
+    bedroom.addWindow(win3)
+    bedroom.addWindow(win4)
+
+    // See how the rooms look afterwards
+    println("------------------------")
+
+    println(bedroom.info())
 }
 
 
@@ -81,7 +101,7 @@ class Cat(val name: String, var legs: Int = 4) {
 
     // This method is run when an object is created
     init {
-        println("Creating a new cat")
+        println("Creating... \n  Cat, $name \n")
     }
 
     // This replaces the default function that prints
@@ -114,6 +134,12 @@ class Room(
     val width: Int,
     val depth: Int
 ) {
+    val windows = mutableListOf<Window>()
+    val doors = mutableListOf<Door>()
+
+    init {
+        println("Creating... \n  ${info()} \n")
+    }
 
     fun volume(): Int {
         // Return the volume of the room = h*w*l
@@ -124,14 +150,88 @@ class Room(
         val walls = width * height * 2 + depth * height * 2
         val floor = width * depth
         val ceiling = floor
-        return walls + floor + ceiling
+        var area = walls + floor + ceiling
+
+        for (window in windows) {
+            area -= window.area()
+        }
+
+        for (door in doors) {
+            area -= door.area()
+        }
+
+        return area
     }
 
-    fun info() {
-        println("----------------------------")
-        println("Room: $name")
-        println("Dimensions: ${height}m tall, ${width}m wide, ${depth}m deep")
-        println("Volume: ${volume()}m³")
-        println("Area: ${area()}m²")
+    fun info(): String {
+        var info = ""
+
+        info += "Room: $name \n"
+        info += "Dimensions: ${height}m tall, ${width}m wide, ${depth}m deep \n"
+        info += "Windows: \n"
+
+        for (window in windows) {
+            info += " - ${window.info()} \n"
+        }
+
+        info += "Doors: \n"
+
+        for (door in doors) {
+            info += " - ${door.info()} \n"
+        }
+
+        info += "Volume: ${volume()}m³ \n"
+        info += "Area: ${area()}m²"
+
+        return info
+    }
+
+    fun maxDimension(): Int {
+        return if (width > depth) width else depth
+    }
+
+    fun addWindow(newWindow: Window) {
+        if (newWindow.width <= maxDimension() && newWindow.height <= height) {
+            println("Adding ${newWindow.info()} to $name")
+            windows.add(newWindow)
+        }
+        else {
+            println("ERROR: Room dimensions don't allow ${newWindow.info()}")
+        }
     }
 }
+
+/**
+ * Class that defines a window which can be added to a Room
+ */
+class Window(val height: Int = 1, val width: Int = 1) {
+    init {
+        println("Creating... \n  ${info()} \n")
+    }
+
+    fun area(): Int {
+        return width * height
+    }
+
+    fun info(): String {
+        return "Window: ${height}m high x ${width}m wide, area:${area()}m²"
+    }
+}
+
+/**
+ * Class that defines a door that can be added to a Room
+ */
+class Door(val height: Int = 2, val width: Int = 1) {
+    init {
+        println("Creating... \n  ${info()} \n")
+    }
+
+    fun area(): Int {
+        return width * height
+    }
+
+    fun info(): String {
+        return "Door: ${height}m high x ${width}m wide, area:${area()}m²"
+    }
+}
+
